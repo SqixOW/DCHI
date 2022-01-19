@@ -27,25 +27,25 @@ C:\Python\Python37\Scripts
 
 다시 터미널로 이동하여 
 
-| pip install --upgrade pip
+pip install --upgrade pip
 
 를 진행해 주고, 올라와 있는 JPype1.whl 파일을 설치해 준다.
 
-| pip install "whl 파일 이름"
+pip install "whl 파일 이름"
 
 이후
 
-| pip install konlpy 
+pip install konlpy 
 
 를 통해 konlpy를 설치한다
 
 #### 이외 필수 라이브러리 설치(tqdm, scikitlearn, selenium, pandas)
 
-| pip install tqdm
-| pip install scikit-learn
-| pip install scipy 
-| pip install selenium
-| pip install pandas
+pip install tqdm
+pip install scikit-learn
+pip install scipy 
+pip install selenium
+pip install pandas
 
 ## 사용법
 

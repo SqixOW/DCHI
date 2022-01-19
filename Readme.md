@@ -42,9 +42,13 @@ pip install konlpy
 #### 이외 필수 라이브러리 설치(tqdm, scikitlearn, selenium, pandas)
 
 pip install tqdm
+
 pip install scikit-learn
+
 pip install scipy 
+
 pip install selenium
+
 pip install pandas
 
 ## 사용법

@@ -11,7 +11,7 @@ C:\Python\Python37\Scripts
 
 ## 라이브러리 설치 (WINDOWS)
 
-#### konlpy 설치
+### konlpy 설치
 
 [JDK 설치](https://www.oracle.com/java/technologies/downloads/#jdk17-windows)
 
@@ -39,7 +39,7 @@ pip install konlpy
 
 를 통해 konlpy를 설치한다
 
-#### 이외 필수 라이브러리 설치(tqdm, scikitlearn, selenium, pandas)
+### 이외 필수 라이브러리 설치(tqdm, scikitlearn, selenium, pandas)
 
 pip install tqdm
 

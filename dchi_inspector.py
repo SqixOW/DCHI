@@ -139,13 +139,15 @@ def load_files(keyword):
     return test_files
 
 def main():
-    print('검색하시고자 하는 키워드와 블로그 페이지 수를 다음과 같이 입력해주세요')
-    print('키워드 2')
+    print('검색하시고자 하는 키워드를 입력해주세요')
+    keyword = input('키워드 입력 : ').split(' ')
+    print('검색하시고자 하는 페이지의 개수를 입력해주세요')
+    pages = int(input('페이지 입력 : '))   
 
-    keyword, pages = input('입력 : ').split()
-
-    crawl(keyword, pages)
-    compare(keyword)
+    for i in tqdm(range(0, len(keyword)), desc='전체 프로세스 동작'):
+        crawl(keyword[i], pages)
+        compare(keyword[i])
+    
     input("종료하시려면 아무 키를 눌러주세요.")
 
 if __name__ == '__main__' :

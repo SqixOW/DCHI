@@ -4,6 +4,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from tqdm import tqdm
+import chardet
+import codecs
 import time
 import re
 import os
@@ -33,7 +35,11 @@ def crawl(keyword, maxPage):
             #print(title)
     
     #print("url 수집 끝, 해당 url 데이터 크롤링")
-    
+    sample_url_path = path + "/" + keyword + "/URL.txt"
+    if os.path.isfile(sample_url_path):
+            os.remove(sample_url_path)
+    sample_url_f = open(sample_url_path, 'a', encoding='utf-8-sig')
+
     for url in tqdm(url_list, desc='샘플 수집중'): # 수집한 url 만큼 반복
         content_list = ""
         count = count + 1
@@ -44,18 +50,23 @@ def crawl(keyword, maxPage):
         contents = driver.find_elements_by_css_selector(overlays_type)
         title_overlays_type1 = ".se-fs-"
         title_overlays_type2 = ".pcol1"
-
         try:
             title = driver.find_element_by_css_selector(title_overlays_type1)
         except NoSuchElementException:
             title = driver.find_element_by_css_selector(title_overlays_type2)
 
+        #title_text = re.sub('[^A-Za-z0-9가-힣\s]', '', title.text).replace('\n','')
+
         for content in contents:
             content_list = content_list + content.text # content_list 라는 값에 + 하면서 점점 누적
-        title_str = path + "/" + keyword + "/" + "샘플 " + re.sub('[\/:*?"<>|]','',title.text) + '.txt'
+        #title_str = path + "/" + keyword + "/" + "샘플 " + re.sub('[\/:*?"<>|]','',title_text) + '.txt'
+        title_str = path + "/" + keyword + "/" + "샘플 " + str(count) + '.txt'
+        sample_url_f.write(title_str + " : " + url + "\n")
         f = open(title_str, 'w', encoding='utf-8')
         f.write(content_list)
         f.close()
+
+    sample_url_f.close()
 
     print('크롤링 완료')
     
@@ -113,7 +124,7 @@ def tokenizer(okt, stream, stop_words_list):
 
 def set_stopwords():
     stop_words_list = []
-    stopwords = open('stopwords.txt', 'r', encoding = 'utf-8')
+    stopwords = open('stopwords.txt', 'r', encoding = 'utf-8-sig')
     for line in stopwords.readlines():
        stop_words_list.append(line.rstrip())
     stopwords.close()
@@ -125,13 +136,19 @@ def load_files(keyword):
     test_files = { 'sample_files': [], 'inspect_files': [], 'sample_files_list': sample_files_list, 'inspect_files_list': inspect_files_list }
 
     for i in range(0, len(inspect_files_list)): 
-        fd = open('./검수/' + keyword + '/' + inspect_files_list[i], 'r', encoding = 'utf-8')
+
+        raw = open('./검수/' + keyword + '/' + inspect_files_list[i], 'rb').read()
+        result = chardet.detect(raw)
+        enc = result['encoding']
+        
+
+        fd = open('./검수/' + keyword + '/' + inspect_files_list[i], 'r', encoding = enc)
         stream = fd.read().replace('\n', ' ')
         test_files['inspect_files'].append(stream)
         fd.close()
 
     for i in range(0, len(sample_files_list)): 
-        fd = open('./샘플/' + keyword + '/' + sample_files_list[i], 'r', encoding = 'utf-8')
+        fd = open('./샘플/' + keyword + '/' + sample_files_list[i], 'r', encoding = 'utf-8-sig')
         stream = fd.read().replace('\n', ' ')
         test_files['sample_files'].append(stream)
         fd.close()

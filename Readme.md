@@ -47,9 +47,11 @@ pip install scikit-learn
 
 pip install scipy 
 
-pip install selenium
+pip install selenium==3.141
 
 pip install pandas
+
+pip install chardet
 
 ## 사용법
 
